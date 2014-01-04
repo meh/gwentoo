@@ -20,6 +20,7 @@ require 'gwentoo'
 
 require 'browser/console'
 require 'browser/storage'
+require 'browser/canvas'
 
 require 'lissio/component/container'
 require 'lissio/component/markdown'
@@ -116,6 +117,8 @@ class Application < Lissio::Application
 		end
 
 		route '/guild/:name' do |params|
+			@page.loading!
+
 			Page::Guild.prepare(params[:name]).then {|page|
 				@page.render page
 			}
