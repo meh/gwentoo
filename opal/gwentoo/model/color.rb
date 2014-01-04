@@ -19,15 +19,12 @@ module Gwentoo
 
 class Color < Lissio::Model
 	class Details < Lissio::Model
-		def self.parse(data)
-		end
-
 		property :brightness, as: Float
 		property :contrast, as: Float
 		property :saturation, as: Float
 		property :lightness, as: Float
 
-		property :hsl, as: Integer
+		property :hue, as: Integer
 		property :rgb, as: Array
 	end
 
@@ -41,9 +38,9 @@ class Color < Lissio::Model
 
 	def self.parse(data)
 		new id: data[:id], name: data[:name], rgb: data[:base_rgb],
-			cloth:   Details.parse(data[:cloth]),
-			leather: Details.parse(data[:leather]),
-			metal:   Details.parse(data[:metal])
+			cloth:   Details.new(data[:cloth]),
+			leather: Details.new(data[:leather]),
+			metal:   Details.new(data[:metal])
 	end
 end
 
