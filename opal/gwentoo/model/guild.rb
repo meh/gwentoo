@@ -22,27 +22,60 @@ class Guild < Lissio::Model
 		string.length == 36 && string.count('-') == 4
 	end
 
+	class Emblem < Lissio::Model
+		class Background < Lissio::Model
+			property :id, as: Integer, primary: true
+			property :color, as: Integer
+
+			def self.parse(data)
+				new id: data[:background_id], color: data[:background_color_id]
+			end
+		end
+
+		class Foreground < Lissio::Model
+			property :id, as: Integer, primary: true
+			property :primary, as: Integer
+			property :secondary, as: Integer
+
+			def self.parse(data)
+				new id:        data[:foreground_id],
+				    primary:   data[:foreground_primary_color_id],
+				    secondary: data[:foreground_secondary_color_id]
+			end
+		end
+
+		property :background, as: Background
+		property :foreground, as: Foreground
+		property :flags, as: Array
+
+		def self.parse(data)
+			new flags:      data[:flags],
+			    background: Background.parse(data),
+			    foreground: Foreground.parse(data)
+		end
+	end
+
 	property :id, as: String, primary: true
 	property :name, as: String
 	property :tag, as: String
-	property :emblem, as: Hash
+	property :emblem, as: Emblem
+
+	def self.parse(data)
+		new id: data[:guild_id], name: data[:guild_name], tag: data[:tag],
+			emblem: Emblem.parse(data[:emblem])
+	end
 
 	adapter REST do
 		endpoint fetch: -> id {
 			if Guild.id?(id)
-				"/guild_details.json?guild_id=#{id.encode_uri_component}"
+				"/guild_details.json?guild_id=#{id}"
 			else
 				"/guild_details.json?guild_name=#{id.encode_uri_component}"
 			end
 		}
 
 		parse do |data|
-			{
-				id:     data[:guild_id],
-				name:   data[:guild_name],
-				tag:    data[:tag],
-				emblem: data[:emblem]
-			}
+			Guild.parse(data)
 		end
 	end
 end

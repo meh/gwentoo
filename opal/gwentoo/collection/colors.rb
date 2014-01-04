@@ -17,4 +17,20 @@
 
 module Gwentoo
 
+class Colors < Lissio::Collection
+	model Color
+
+	adapter REST, '/colors.json' do
+		parse do |items|
+			items[:colors].map {|id, details|
+				Color.parse(details.merge(id: id))
+			}
+		end
+	end
+end
+
+def self.colors
+	Colors.fetch
+end
+
 end

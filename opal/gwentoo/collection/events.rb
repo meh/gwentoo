@@ -15,31 +15,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Gwentoo. If not, see <http://www.gnu.org/licenses/>.
 
-require 'lissio'
-require 'lissio/adapter/rest'
-
-require 'gwentoo/rest'
-
-require 'gwentoo/model/world'
-require 'gwentoo/model/map'
-require 'gwentoo/model/event'
-require 'gwentoo/model/build'
-require 'gwentoo/model/guild'
-require 'gwentoo/model/color'
-
-require 'gwentoo/collection/worlds'
-require 'gwentoo/collection/maps'
-require 'gwentoo/collection/events'
-require 'gwentoo/collection/colors'
-
 module Gwentoo
-	VERSION = '0.1.0'
 
-	class << self
-		attr_accessor :language
+class Events < Lissio::Collection
+	model Event
 
-		def languages
-			{ en: "English", de: "Deutsch", sp: "Español", fr: "Français" }
-		end
-	end
+	adapter REST, '/event_names.json'
+end
+
+def self.events
+	Events.fetch
+end
+
 end

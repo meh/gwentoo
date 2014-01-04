@@ -22,6 +22,19 @@ class World < Lissio::Model
 	property :name, as: String
 	property :language, as: Symbol
 
+	def self.parse(data)
+		id       = data[:id]
+		name     = data[:name]
+		language = nil
+
+		name.match /^(.*?)\s\[(.*?)\]$/ do |m|
+			name     = m[1]
+			language = m[2].downcase.to_sym
+		end
+
+		new id: id, name: name, language: language
+	end
+
 	def events
 		Events.fetch(world_id: id)
 	end

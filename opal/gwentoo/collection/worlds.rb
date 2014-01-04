@@ -18,28 +18,19 @@
 module Gwentoo
 
 class Worlds < Lissio::Collection
+	model World
+
 	adapter REST, '/world_names.json' do
 		parse do |items|
 			items.map {|item|
-				id       = item[:id]
-				name     = item[:name]
-				language = nil
-
-				name.match /^(.*?)\s\[(.*?)\]$/ do |m|
-					name     = m[1]
-					language = m[2].downcase.to_sym
-				end
-
-				World.new(id: id, name: name, language: language)
+				World.parse(item)
 			}
 		end
 	end
-
-	model World
 end
 
 def self.worlds
-	Gwentoo::Worlds.fetch
+	Worlds.fetch
 end
 
 end
