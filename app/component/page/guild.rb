@@ -1,134 +1,100 @@
-class Browser::Canvas
-	def hue(color)
-		# TODO: it all
-	end
-
-	def contrast(value)
-		d = data
-		f = (259 * (value + 255)) / (255 * (259 - value))
-
-		0.upto(d.length - 1).each_slice(4) {|r, g, b, _|
-			d[r] = (f * ((d[r] - 128) + 128))
-			d[g] = (f * ((d[g] - 128) + 128))
-			d[b] = (f * ((d[b] - 128) + 128))
-		}
-
-		d.save_to self
-	end
-
-	def colorize(r, g, b)
-		d = data
-
-		0.upto(d.length - 1).each_slice(4) {|ri, gi, bi, _|
-			luminance = d[ri] / 255
-
-			d[ri] = r * luminance;
-			d[gi] = g * luminance;
-			d[bi] = b * luminance;
-		}
-
-		d.save_to self
-	end
-
-	def flip(how)
-		c = Browser::Canvas.new(width, height)
-
-		if how == :horizontal
-			c.translate(width, 0)
-			c.scale(-1, 1)
-		else
-			c.translate(0, height)
-			c.scale(1, -1)
-		end
-
-		c.draw_image self
-		clear
-		draw_image c
-	end
-end
-
 module Component; class Page < Lissio::Component::Container
 
 class Guild < Lissio::Component
 	def self.prepare(id)
 		Database.colors.then {
 			Gwentoo::Guild.fetch(id)
-		}.then {|guild|
-			new(guild)
-		}
-	end
+		}.trace {|colors, guild|
+			canvas = Browser::Canvas.new(256, 256)
+			canvas.clear(0, 0, 256, 256)
 
-	def initialize(guild)
-		@guild = guild
-	end
-
-	on :render do
-		e = @guild.emblem!
-		c = Browser::Canvas.new(element.at_css('.emblem'))
-		c.clear(0, 0, 256, 256)
-
-		Database.colors.then {|colors|
 			Promise.when.tap {|p|
+				p.wait canvas
+				p.wait guild
+
 				p.wait Promise.when.tap {|p|
-					p.wait colors[e.background!.id].cloth!
-					p.wait colors[e.foreground!.primary].cloth!
-					p.wait colors[e.foreground!.secondary].cloth!
+					p.wait colors[guild.emblem!.background!.id].cloth!
+					p.wait colors[guild.emblem!.foreground!.primary].cloth!
+					p.wait colors[guild.emblem!.foreground!.secondary].cloth!
 				}
 
 				p.wait Promise.when.tap {|p|
-					p.wait c.load("img/emblem/bg/#{e.background!.id}.png")
-					p.wait c.load("img/emblem/fg/#{e.foreground!.id}a.png")
-					p.wait c.load("img/emblem/fg/#{e.foreground!.id}b.png")
+					p.wait canvas.load("img/emblem/bg/#{guild.emblem!.background!.id}.png")
+					p.wait canvas.load("img/emblem/fg/#{guild.emblem!.foreground!.id}a.png")
+					p.wait canvas.load("img/emblem/fg/#{guild.emblem!.foreground!.id}b.png")
 				}
 			}
-		}.then {|colors, images|
-			colors = {
-				background: colors[0],
-				primary:    colors[1],
-				secondary:  colors[2]
-			}
+		}.then {|canvas, guild, colors, images|
+			background = Browser::Canvas.new(images[0])
+			primary    = Browser::Canvas.new(images[1])
+			secondary  = Browser::Canvas.new(images[2])
 
-			images = {
-				background: Browser::Canvas.new(images[0]),
-				primary:    Browser::Canvas.new(images[1]),
-				secondary:  Browser::Canvas.new(images[2])
-			}
+			colorize(background, colors[0])
+			colorize(primary, colors[1])
+			colorize(secondary, colors[2])
 
-			images[:background].hue(colors[:background])
-			images[:primary].hue(colors[:primary])
-			images[:secondary].hue(colors[:secondary])
+			foreground = Browser::Canvas.new(primary)
+			foreground.draw_image(secondary)
 
-			images[:background].contrast(colors[:background].contrast)
-			images[:background].colorize(*colors[:background].rgb)
-
-			images[:primary].contrast(colors[:primary].contrast)
-			images[:primary].colorize(*colors[:primary].rgb)
-
-			images[:secondary].contrast(colors[:secondary].contrast)
-			images[:secondary].colorize(*colors[:secondary].rgb)
-
-			images[:foreground] = Browser::Canvas.new(images[:primary])
-			images[:foreground].draw_image(images[:secondary])
-
-			if e.flags.include? 'FlipBackgroundHorizontal'
-				images[:background].flip(:horizontal)
+			if guild.emblem!.flags.include? 'FlipBackgroundHorizontal'
+				flip(background, :horizontal)
 			end
 
-			if e.flags.include? 'FlipBackgroundVertical'
-				images[:background].flip(:vertical)
+			if guild.emblem!.flags.include? 'FlipBackgroundVertical'
+				flip(background, :vertical)
 			end
 
-			if e.flags.include? 'FlipForegroundHorizontal'
-				images[:foreground].flip(:horizontal)
+			if guild.emblem!.flags.include? 'FlipForegroundHorizontal'
+				flip(foreground, :horizontal)
 			end
 
-			if e.flags.include? 'FlipForegroundVertical'
-				images[:foreground].flip(:vertical)
+			if guild.emblem!.flags.include? 'FlipForegroundVertical'
+				flip(foreground, :vertical)
 			end
 
-			c.draw_image(images[:background])
-			c.draw_image(images[:foreground])
+			canvas.draw_image(background)
+			canvas.draw_image(foreground)
+
+			new(guild, canvas)
 		}
+	end
+
+	def self.colorize(canvas, color)
+		r, g, b = color.rgb
+		d       = canvas.data
+
+		0.upto(d.length - 1).each_slice(4) {|ri, gi, bi, _|
+			luminance = d[ri] / 255
+
+			d[ri] = r * luminance
+			d[gi] = g * luminance
+			d[bi] = b * luminance
+		}
+
+		d.save
+	end
+
+	def self.flip(canvas, how)
+		flipped = Browser::Canvas.new(canvas.width, canvas.height)
+
+		if how == :horizontal
+			flipped.translate(canvas.width, 0)
+			flipped.scale(-1, 1)
+		else
+			flipped.translate(0, canvas.height)
+			flipped.scale(1, -1)
+		end
+
+		flipped.draw_image canvas
+		canvas.clear
+		canvas.draw_image flipped
+	end
+
+	attr_reader :guild, :emblem
+
+	def initialize(guild, emblem)
+		@guild  = guild
+		@emblem = emblem
 	end
 
 	tag id: 'guild'
@@ -138,7 +104,7 @@ class Guild < Lissio::Component
 			_.div.name @guild.name
 
 			_.div do
-				_.canvas.width(256).height(256).emblem
+				_ << @emblem
 				_.span.tag @guild.tag
 			end
 		end
@@ -148,7 +114,7 @@ class Guild < Lissio::Component
 
 	css do
 		rule '#guild' do
-			rule '.emblem' do
+			rule 'canvas' do
 				width 100.px
 				height 100.px
 
