@@ -131,10 +131,6 @@ class Guild < Lissio::Component
 		}
 	end
 
-	def recolor(canvas, hue)
-
-	end
-
 	tag id: 'guild'
 
 	html do |_|
