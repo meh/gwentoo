@@ -2,7 +2,7 @@ module Component; class Page < Lissio::Component::Container; module Select
 
 class World < Lissio::Component
 	def self.prepare
-		Gwentoo.worlds.then {|worlds|
+		Database.worlds.then {|worlds|
 			new(worlds)
 		}
 	end

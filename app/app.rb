@@ -25,6 +25,7 @@ require 'lissio/component/container'
 require 'lissio/component/markdown'
 
 require 'translate'
+require 'database'
 
 require 'component/tab'
 require 'component/page'
@@ -40,27 +41,13 @@ require 'component/page/select/guild'
 class Application < Lissio::Application
 	Page = Component::Page
 
-	def world=(w)
-		$window.storage[:world] = w
-		@tab.world              = w.name
-
-		unless language
-			self.language = w.language
-		end
-	end
-	expose :world=
-
-	def world
-		$window.storage[:world]
-	end
-	expose :world
-
 	def language=(language)
 		$window.storage[:language] = language
 		@tab.language              = language
 		Gwentoo.language           = language
 
-		Gwentoo.worlds.then {|worlds|
+		Database.clear
+		Database.worlds.then {|worlds|
 			current = world
 			new     = worlds.find { |w| w.id === current.id }
 
@@ -75,6 +62,21 @@ class Application < Lissio::Application
 		$window.storage[:language]
 	end
 	expose :language
+
+	def world=(w)
+		$window.storage[:world] = w
+		@tab.world              = w.name
+
+		unless language
+			self.language = w.language
+		end
+	end
+	expose :world=
+
+	def world
+		$window.storage[:world]
+	end
+	expose :world
 
 	def initialize
 		super
@@ -127,7 +129,7 @@ class Application < Lissio::Application
 		if w = world
 			@tab.world = w.name
 		else
-			Gwentoo.worlds.then {|worlds|
+			Database.worlds.then {|worlds|
 				self.world = worlds.first
 			}
 		end
