@@ -22,19 +22,16 @@ class Footer < Lissio::Component
 
 	on :render do
 		Gwentoo::Build.fetch.then {|build|
-			element.at_css('.build .gwentoo') << "Gwentoo v#{Gwentoo::VERSION}"
-			element.at_css('.build .guildwars') << "Guild Wars b#{build.id}"
+			element.at_css('.build') << build.id.to_s
 		}
 	end
 
 	html do
-		div.left
+		div.build
 
-		div.right do
-			div.build do
-				div.gwentoo
-				div.guildwars
-			end
+		div.gwentoo do
+			span.name "GWENTOO"
+			span.version Gwentoo::VERSION.to_s
 		end
 	end
 
@@ -42,37 +39,41 @@ class Footer < Lissio::Component
 		rule '#footer' do
 			position :fixed
 			bottom   0
-			right    0
+			left     0
 
-			color :white
+			width    100.%
+			height 150.px
 
-			rule '.right' do
-				width      350.px
-				height     183.px
-				background url('img/tab.black.png')
+			background url('img/footer.jpg'), 50.%, 0.%, 'no-repeat'
 
-				float :left
+			cursor :default
 
-				rule '.content' do
-					padding top:  80.px,
-					        left: 90.px
-				end
+			rule '.build' do
+				position :absolute
+				top      107.px
+				left     30.%
 
-				rule '.build' do
-					position :absolute
-					right    30.px
-					bottom   10.px
-
-					text align: :right
-				end
+				color '#bbb'
+				font size: 18.px
 			end
 
-			rule '.left' do
-				width      96.px
-				height     183.px
-				background url('img/tab.side.black.png')
+			rule '.gwentoo' do
+				position :absolute
+				right 15.%
+				top 90.px
+				color '#bbb'
 
-				float :left
+				rule '.name' do
+					font family: 'Title',
+					     size:   42.px
+
+					letter spacing: -2.px
+				end
+
+				rule '.version' do
+					font size: 18.px
+					margin left: 7.px
+				end
 			end
 		end
 	end
