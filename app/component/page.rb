@@ -20,7 +20,7 @@ module Component
 class Page < Lissio::Component::Container
 	def loading!
 		render do
-			h1 'Loading...'
+			div.spinner.yellow
 		end
 	end
 
@@ -43,6 +43,35 @@ class Page < Lissio::Component::Container
 				margin 0
 				padding 25.px
 			end
+
+			rule '.spinner' do
+				width  100.px
+				height 100.px
+
+				position :absolute
+				top      50.%
+				left     50.%
+
+				margin top:  -90.px,
+				       left: -50.px
+
+				background size: [100.%, 100.%]
+				animation :spin, 1.s, :linear, 0.s, :infinite
+
+				rule '&.yellow' do
+					background image: url('img/spinner.yellow.png')
+				end
+			end
+
+ #     keyframes :spin do
+				#from do
+					#transform rotate(0.deg)
+				#end
+
+				#to do
+					#transform rotate(360.deg)
+				#end
+			#end
 		end
 	end
 end
