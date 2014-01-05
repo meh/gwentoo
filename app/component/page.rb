@@ -36,7 +36,8 @@ class Page < Lissio::Component::Container
 
 			rule 'h1' do
 				font size:   3.em,
-				     weight: :normal
+				     weight: :normal,
+				     family: 'Title'
 
 				text align: :center
 
