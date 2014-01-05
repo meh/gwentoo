@@ -25,7 +25,7 @@ class World < Lissio::Component
 
 			na.each {|world|
 				_.div.world do
-					_.a.href('/').text(world.name).on :click do
+					_.a.href(:back).text(world.name).on :click do
 						Application.world = world
 					end
 				end
@@ -37,12 +37,14 @@ class World < Lissio::Component
 
 			eu.each {|world|
 				_.div.world do
-					_.a.href('/').text(world.name).on :click do
+					_.a.href(:back).text(world.name).on :click do
 						Application.world = world
 					end
 				end
 			}
 		end
+
+		_.div.style(clear: :both)
 	end
 
 	css do

@@ -13,7 +13,7 @@ class Language < Lissio::Component
 		div.languages do
 			Gwentoo.languages.each {|code, name|
 				div do
-					a.href('/').text(name).on :click do
+					a.href(:back).text(name).on :click do
 						Application.language = code
 					end
 				end
