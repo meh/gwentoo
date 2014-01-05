@@ -109,7 +109,7 @@ class Guild < Lissio::Component
 			end
 		end
 
-		_.div "And this is all you'll know since the API for Guilds is rather pointless."
+		_.div T.p("And this is all you'll know since the API for Guilds is rather pointless.")
 	end
 
 	css do

@@ -18,10 +18,10 @@ class World < Lissio::Component
 		na     = worlds["1"] # North American servers
 		eu     = worlds["2"] # European servers
 
-		_.h1 'Select the World'
+		_.h1 T.p('Select a World')
 
 		_.div.group.na do
-			_.div.header "North America"
+			_.div.header T.w('North America')
 
 			na.each {|world|
 				_.div.world do
@@ -33,7 +33,7 @@ class World < Lissio::Component
 		end
 
 		_.div.group.eu do
-			_.div.header "Europe"
+			_.div.header T.w('Europe')
 
 			eu.each {|world|
 				_.div.world do

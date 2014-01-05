@@ -19,11 +19,23 @@ class Translate
 	@phrases = {}
 	@words   = {}
 
-	def self.phrase(phrase, to = Application.language || :en)
-		return phrase if to == :en || @phrases[phrase].nil?
-	end
+	class << self
+		def phrase(phrase, to = Application.language || :en)
+			return phrase if to == :en || @phrases[phrase].nil?
 
-	def self.word(word, to = Application.language || :en)
-		return word if to == :en || @words[word].nil?
+			@phrases[phrase][to]
+		end
+
+		alias p phrase
+
+		def word(word, to = Application.language || :en)
+			return word if to == :en || @words[word].nil?
+
+			@words[phrase][to]
+		end
+
+		alias w word
 	end
 end
+
+T = Translate

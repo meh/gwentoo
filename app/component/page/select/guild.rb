@@ -4,9 +4,9 @@ class Guild < Lissio::Component
 	tag id: 'select-guild'
 
 	html do
-		h1 'Select the Guild'
+		h1 T.p('Select a Guild')
 
-		input.type(:text)
+		input.type(:text).place_holder(T.p('Name or ID'))
 	end
 
 	css do

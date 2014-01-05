@@ -8,7 +8,7 @@ class Language < Lissio::Component
 	tag id: 'select-language'
 
 	html do
-		h1 'Select the Language'
+		h1 T.p('Select a Language')
 
 		div.languages do
 			Gwentoo.languages.each {|code, name|
