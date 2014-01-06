@@ -74,6 +74,8 @@ class Footer < Lissio::Component
 			width  100.%
 			height 205.px
 
+			transition :height, 0.8.s
+
 			background url('img/footer.jpg'), 50.%, 0.%, 'no-repeat'
 
 			cursor :default
