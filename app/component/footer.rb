@@ -18,27 +18,6 @@
 module Component
 
 class Footer < Lissio::Component
-	on :click, 'a', :hide
-	on :click, '.arrow > div', :toggle
-
-	def show
-		element.style.height = 205.px
-		element.at_css('.arrow div').remove_class(:up).add_class(:down)
-	end
-
-	def hide
-		element.style.height = 150.px
-		element.at_css('.arrow div').remove_class(:down).add_class(:up)
-	end
-
-	def toggle
-		if element.style.height.to_u == 150.px
-			show
-		else
-			hide
-		end
-	end
-
 	element '#footer'
 
 	on :render do
@@ -60,8 +39,13 @@ class Footer < Lissio::Component
 		end
 
 		div.menu do
-			a.href('/').text('Home')
-			a.href('/select/guild').text('Guild')
+			a.href('/').text(T.w('Home'))
+			a.href('/map').text(T.w('Map'))
+			a.href('/items').text(T.w('Items'))
+			a.href('/recipes').text(T.w('Recipes'))
+			a.href('/dyes').text(T.w('Dyes'))
+			a.href('/guild').text(T.w('Guild'))
+			a.href('/wvw').text(T.w('WvW'))
 		end
 	end
 
@@ -76,14 +60,16 @@ class Footer < Lissio::Component
 
 			transition :height, 0.8.s
 
-			background url('img/footer.jpg'), 50.%, 0.%, 'no-repeat'
+			background url('img/footer.png'), 50.%, 0.%, 'no-repeat'
 
 			cursor :default
 
 			rule '.build' do
 				position :absolute
 				top      107.px
-				left     30.%
+				left     50.%
+
+				margin left: -255.px
 
 				color '#bbb'
 				font size: 18.px
@@ -108,28 +94,6 @@ class Footer < Lissio::Component
 				rule '.version' do
 					font size: 18.px
 					margin left: 7.px
-				end
-			end
-
-			rule '.arrow' do
-				width  100.%
-				margin top: 75.px
-
-				text align: :center
-
-				rule '& > div' do
-					width  13.px
-					height 8.px
-
-					display 'inline-block'
-
-					rule '&.up' do
-						background url('img/arrow.up.png')
-					end
-
-					rule '&.down' do
-						background url('img/arrow.down.png')
-					end
 				end
 			end
 
