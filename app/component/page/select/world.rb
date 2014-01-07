@@ -49,6 +49,10 @@ class World < Lissio::Component
 
 	css do
 		rule '#select-world' do
+			rule 'a' do
+				text decoration: :none
+			end
+
 			rule '.group' do
 				width 47.%
 

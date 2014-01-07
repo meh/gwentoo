@@ -64,6 +64,10 @@ class Footer < Lissio::Component
 
 			cursor :default
 
+			rule 'a' do
+				text decoration: :none
+			end
+
 			rule '.build' do
 				position :absolute
 				top      107.px

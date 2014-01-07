@@ -169,10 +169,10 @@ class Application < Lissio::Application
 
 			rule 'a' do
 				color :black
-				text decoration: :none
 
 				rule '&:hover' do
 					color '#9b1e1d'
+					text decoration: :none
 				end
 			end
 		end

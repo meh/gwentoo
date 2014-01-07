@@ -23,6 +23,10 @@ class Language < Lissio::Component
 
 	css do
 		rule '#select-language' do
+			rule 'a' do
+				text decoration: :none
+			end
+
 			rule '.languages' do
 				rule 'div' do
 					float :left
