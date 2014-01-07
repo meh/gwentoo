@@ -1,12 +1,19 @@
+require 'component/page/introduction/english'
+require 'component/page/introduction/spanish'
+require 'component/page/introduction/french'
+require 'component/page/introduction/german'
+
 module Component; class Page < Lissio::Component::Container
 
-class Introduction < Lissio::Component::Markdown
-	content <<-MD.gsub(/^\t{2}/m, '')
-		Install Gwentoo
-		===============
-		&gt;1970+44<br/>
-		&gt;not installing gwentoo
-	MD
+class Introduction
+	def self.new
+		case Application.language
+		when :en, nil then English.new
+		when :fr      then French.new
+		when :es      then Spanish.new
+		when :de      then German.new
+		end
+	end
 end
 
 end; end
