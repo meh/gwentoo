@@ -70,7 +70,7 @@ class Footer < Lissio::Component
 
 			rule '.build' do
 				position :absolute
-				top      107.px
+				top      93.px
 				left     50.%
 
 				margin left: -255.px
@@ -82,7 +82,7 @@ class Footer < Lissio::Component
 			rule '.gwentoo' do
 				position :absolute
 				left     50.%
-				top      90.px
+				top      73.px
 
 				margin left: 210.px
 
@@ -103,7 +103,7 @@ class Footer < Lissio::Component
 
 			rule '.menu' do
 				position :absolute
-				top      155.px
+				top      153.px
 				left     0
 
 				width 100.%
