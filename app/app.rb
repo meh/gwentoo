@@ -112,7 +112,7 @@ class Application < Lissio::Application
 			}
 		end
 
-		route '/select/guild' do
+		route '/guild' do
 			@page.render Page::Select::Guild.new
 		end
 
