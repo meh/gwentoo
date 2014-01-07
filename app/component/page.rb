@@ -30,7 +30,7 @@ class Page < Lissio::Component::Container
 		rule '#page' do
 			width 45.%
 			margin 0, :auto
-			padding bottom: 205.px
+			padding bottom: 195.px
 
 			font size: 16.px
 

@@ -56,11 +56,11 @@ class Footer < Lissio::Component
 			left     0
 
 			width  100.%
-			height 205.px
+			height 195.px
 
 			transition :height, 0.8.s
 
-			background url('img/footer.png'), 50.%, 0.%, 'no-repeat'
+			background url('img/footer.jpg'), 50.%, -15.px, 'no-repeat'
 
 			cursor :default
 
@@ -99,7 +99,7 @@ class Footer < Lissio::Component
 
 			rule '.menu' do
 				position :absolute
-				top      165.px
+				top      155.px
 				left     0
 
 				width 100.%
