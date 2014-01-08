@@ -50,70 +50,68 @@ class Footer < Lissio::Component
 	end
 
 	css do
-		rule '#footer' do
-			position :fixed
-			bottom   0
+		position :fixed
+		bottom   0
+		left     0
+
+		width  100.%
+		height 195.px
+
+		transition :height, 0.8.s
+
+		background url('img/footer.jpg'), 50.%, -15.px, 'no-repeat'
+
+		cursor :default
+
+		rule 'a' do
+			text decoration: :none
+		end
+
+		rule '.build' do
+			position :absolute
+			top      93.px
+			left     50.%
+
+			margin left: -255.px
+
+			color '#bbb'
+			font size: 18.px
+		end
+
+		rule '.gwentoo' do
+			position :absolute
+			left     50.%
+			top      73.px
+
+			margin left: 210.px
+
+			color '#bbb'
+
+			rule '.name' do
+				font family: 'Title',
+					   size:   42.px
+
+				letter spacing: -2.px
+			end
+
+			rule '.version' do
+				font size: 18.px
+				margin left: 7.px
+			end
+		end
+
+		rule '.menu' do
+			position :absolute
+			top      153.px
 			left     0
 
-			width  100.%
-			height 195.px
+			width 100.%
+			text align: :center
 
-			transition :height, 0.8.s
-
-			background url('img/footer.jpg'), 50.%, -15.px, 'no-repeat'
-
-			cursor :default
+			font size: 23.px
 
 			rule 'a' do
-				text decoration: :none
-			end
-
-			rule '.build' do
-				position :absolute
-				top      93.px
-				left     50.%
-
-				margin left: -255.px
-
-				color '#bbb'
-				font size: 18.px
-			end
-
-			rule '.gwentoo' do
-				position :absolute
-				left     50.%
-				top      73.px
-
-				margin left: 210.px
-
-				color '#bbb'
-
-				rule '.name' do
-					font family: 'Title',
-					     size:   42.px
-
-					letter spacing: -2.px
-				end
-
-				rule '.version' do
-					font size: 18.px
-					margin left: 7.px
-				end
-			end
-
-			rule '.menu' do
-				position :absolute
-				top      153.px
-				left     0
-
-				width 100.%
-				text align: :center
-
-				font size: 23.px
-
-				rule 'a' do
-					margin 0, 10.px
-				end
+				margin 0, 10.px
 			end
 		end
 	end

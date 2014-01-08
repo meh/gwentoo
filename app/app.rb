@@ -147,34 +147,34 @@ class Application < Lissio::Application
 		div.page!
 		div.footer!
 
-		div do %Q{
+		div { <<-HTML }
 			<a href="https://github.com/meh/gwentoo">
 				<img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
 			</a>
-		} end
+		HTML
 	end
 
 	css do
+		font size: 14.px,
+			   family: 'Text'
+
+		color :black
+		background :white
+
+		rule 'a' do
+			color :black
+
+			rule '&:hover' do
+				color '#9b1e1d'
+				text decoration: :none
+			end
+		end
+	end
+
+	css! do
 		rule 'html', 'body' do
 			width  100.%
 			height 100.%
-		end
-
-		rule 'body' do
-			font size: 14.px,
-			     family: 'Text'
-
-			color :black
-			background :white
-
-			rule 'a' do
-				color :black
-
-				rule '&:hover' do
-					color '#9b1e1d'
-					text decoration: :none
-				end
-			end
 		end
 	end
 end

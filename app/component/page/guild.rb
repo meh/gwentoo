@@ -113,22 +113,20 @@ class Guild < Lissio::Component
 	end
 
 	css do
-		rule '#guild' do
-			rule 'canvas' do
-				width 100.px
-				height 100.px
+		rule 'canvas' do
+			width 100.px
+			height 100.px
 
-				vertical align: :middle
-			end
+			vertical align: :middle
+		end
 
-			rule '.tag' do
-				font size: 42.px
-				margin left: 15.px
-			end
+		rule '.tag' do
+			font size: 42.px
+			margin left: 15.px
+		end
 
-			rule 'div' do
-				text align: :center
-			end
+		rule 'div' do
+			text align: :center
 		end
 	end
 end

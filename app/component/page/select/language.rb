@@ -22,19 +22,17 @@ class Language < Lissio::Component
 	end
 
 	css do
-		rule '#select-language' do
-			rule 'a' do
-				text decoration: :none
-			end
+		rule 'a' do
+			text decoration: :none
+		end
 
-			rule '.languages' do
-				rule 'div' do
-					float :left
-					width 25.%
-					text align: :center
+		rule '.languages' do
+			rule 'div' do
+				float :left
+				width 25.%
+				text align: :center
 
-					font size: 24.px
-				end
+				font size: 24.px
 			end
 		end
 	end

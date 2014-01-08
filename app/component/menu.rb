@@ -31,32 +31,30 @@ class Menu < Lissio::Component
 	end
 
 	css do
-		rule '#menu' do
-			position :fixed
-			top      0
-			left     0
+		position :fixed
+		top      0
+		left     0
 
-			rule '.tab' do
-				width      350.px
-				height     183.px
-				background url('img/tab.png')
+		rule '.tab' do
+			width      350.px
+			height     183.px
+			background url('img/tab.png')
 
-				float :left
+			float :left
 
-				rule '.content' do
-					color   :white
-					padding 15.px
-					padding left: 30.px
-				end
+			rule '.content' do
+				color   :white
+				padding 15.px
+				padding left: 30.px
 			end
+		end
 
-			rule '.side' do
-				width      96.px
-				height     183.px
-				background url('img/tab.side.png')
+		rule '.side' do
+			width      96.px
+			height     183.px
+			background url('img/tab.side.png')
 
-				float :left
-			end
+			float :left
 		end
 	end
 end

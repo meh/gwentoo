@@ -45,59 +45,57 @@ class Tab < Lissio::Component
 	end
 
 	css do
-		rule '#tab' do
-			pointer events: :none
+		pointer events: :none
 
-			position :fixed
-			top      0
-			left     0
+		position :fixed
+		top      0
+		left     0
 
+		color :white
+
+		rule 'a' do
 			color :white
+			text decoration: :none
+		end
 
-			rule 'a' do
-				color :white
-				text decoration: :none
-			end
+		rule '.left' do
+			width      350.px
+			height     183.px
+			background url('img/tab.png')
 
-			rule '.left' do
-				width      350.px
-				height     183.px
-				background url('img/tab.png')
+			float :left
 
-				float :left
+			pointer events: :auto
 
-				pointer events: :auto
+			rule '.content' do
+				padding top:   10.px,
+					      left:  30.px,
+					      right: 50.px
 
-				rule '.content' do
-					padding top:   10.px,
-					        left:  30.px,
-					        right: 50.px
+				font size: 24.px
 
-					font size: 24.px
+				rule '.world' do
+					font size: 32.px
 
-					rule '.world' do
-						font size: 32.px
-
-						rule '.current' do
-							display 'inline-block'
-						end
+					rule '.current' do
+						display 'inline-block'
 					end
+				end
 
-					rule '.language' do
-						rule '.current' do
-							display 'inline-block'
-						end
+				rule '.language' do
+					rule '.current' do
+						display 'inline-block'
 					end
 				end
 			end
+		end
 
-			rule '.right' do
-				width      96.px
-				height     183.px
-				background url('img/tab.side.png')
+		rule '.right' do
+			width      96.px
+			height     183.px
+			background url('img/tab.side.png')
 
-				float :left
-			end
+			float :left
 		end
 	end
 end

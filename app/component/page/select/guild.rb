@@ -18,18 +18,16 @@ class Guild < Lissio::Component
 	end
 
 	css do
-		rule '#select-guild' do
-			text align: :center
+		text align: :center
 
-			rule 'input' do
-				background :white
-				border :none
-				border bottom: [1.px, :dashed, :black]
+		rule 'input' do
+			background :white
+			border :none
+			border bottom: [1.px, :dashed, :black]
 
-				font size: 23.px
-				width 80.%
-				color :black
-			end
+			font size: 23.px
+			width 80.%
+			color :black
 		end
 	end
 end

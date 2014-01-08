@@ -48,33 +48,31 @@ class World < Lissio::Component
 	end
 
 	css do
-		rule '#select-world' do
-			rule 'a' do
-				text decoration: :none
+		rule 'a' do
+			text decoration: :none
+		end
+
+		rule '.group' do
+			width 47.%
+
+			rule '&.na' do
+				float :left
 			end
 
-			rule '.group' do
-				width 47.%
+			rule '&.eu' do
+				float :right
+			end
 
-				rule '&.na' do
-					float :left
-				end
+			rule '.header' do
+				font size: 24.px
+				text align: :center
 
-				rule '&.eu' do
-					float :right
-				end
+				margin bottom: 10.px
+			end
 
-				rule '.header' do
-					font size: 24.px
-					text align: :center
-
-					margin bottom: 10.px
-				end
-
-				rule '.world' do
-					width 50.%
-					float :left
-				end
+			rule '.world' do
+				width 50.%
+				float :left
 			end
 		end
 	end
