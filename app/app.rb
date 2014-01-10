@@ -17,17 +17,20 @@
 
 require 'opal'
 require 'gwentoo'
+#require 'color'
 
 require 'browser/console'
 require 'browser/storage'
 require 'browser/canvas'
 
+require 'lissio/component/alert'
 require 'lissio/component/container'
 require 'lissio/component/markdown'
 
 require 'translate'
 require 'database'
 
+require 'component/alert'
 require 'component/tab'
 require 'component/page'
 require 'component/footer'
@@ -121,7 +124,29 @@ class Application < Lissio::Application
 
 			Page::Guild.prepare(params[:name]).then {|page|
 				@page.render page
+			}.rescue {
+				@page.render Component::Error.new("No Guild named #{params[:name]} was found.")
 			}
+		end
+
+		route '/map' do
+			@page.render Component::Error.new('Maps not implemented yet.')
+		end
+
+		route '/items' do
+			@page.render Component::Error.new('Item database not implemented yet.')
+		end
+
+		route '/recipes' do
+			@page.render Component::Error.new('Recipe database not implemented yet.')
+		end
+
+		route '/dyes' do
+			@page.render Component::Error.new('Dye database not implemented yet.')
+		end
+
+		route '/wvw' do
+			@page.render Component::Error.new('World vs World stats not implemented yet.')
 		end
 	end
 

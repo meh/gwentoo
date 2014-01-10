@@ -31,6 +31,10 @@ class REST < Lissio::Adapter::REST
 				end
 			end
 
+			error do |res|
+				res.json
+			end
+
 			instance_exec(&block) if block
 		end
 	end
