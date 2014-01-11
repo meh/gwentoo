@@ -6,3 +6,4 @@ gem 'lissio', github: 'meh/lissio'
 gem 'paggio', github: 'meh/paggio'
 
 gem 'puma'
+gem 'color'
