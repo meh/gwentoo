@@ -156,10 +156,6 @@ class Application < Lissio::Application
 
 		if w = world
 			@tab.world = w.name
-		else
-			Database.worlds.then {|worlds|
-				self.world = worlds.first
-			}
 		end
 
 		if l = language
