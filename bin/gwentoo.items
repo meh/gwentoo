@@ -1,0 +1,60 @@
+#! /usr/bin/env ruby
+require 'json'
+require 'zlib'
+require 'net/http'
+require 'net/http/pipeline'
+require 'thread/channel'
+require 'ruby-progressbar'
+
+Thread.abort_on_exception = true
+
+ids      = JSON.parse(Net::HTTP.get(URI.parse('https://api.guildwars2.com/v1/items.json')))['items']
+threads  = ARGV.shift
+chan     = Thread.channel
+progress = ProgressBar.create(output: $stderr, total: ids.length, format: '%E |%w>>%i| %a', smoothing: 0.6, throttle_rate: 0.6)
+
+ids.each_slice(ids.length / (ARGV.first || 1).to_i) {|slice|
+	Thread.new {
+		http            = Net::HTTP.new 'api.guildwars2.com', 443
+		http.pipelining = true
+		http.use_ssl    = true
+
+		http.start do |h|
+			slice.each_slice 16 do |items|
+				requests = items.map {|id|
+					Net::HTTP::Get.new("/v1/item_details.json?item_id=#{id}")
+				}
+
+				h.pipeline requests do |res|
+					if res['content-encoding'] && res['content-encoding'].include?('gzip')
+						chan.send Zlib::GzipReader.new(StringIO.new(res.body)).read
+					else
+						chan.send res.body
+					end
+				end
+			end
+
+			chan.send :done
+		end
+	}
+}
+
+done = 0
+puts "["
+while value = chan.receive
+	if value == :done
+		done += 1
+
+		if done == threads
+			break
+		else
+			next
+		end
+	end
+
+	progress.increment
+
+	puts value
+	puts ','
+end
+puts "]"
