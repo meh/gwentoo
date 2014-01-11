@@ -1,6 +1,5 @@
 module Component
-	colors = { background: :transparent, border: :transparent }
-	css    = -> {
+	css = -> {
 		position :absolute
 		top 50.%
 		left 0
@@ -10,8 +9,11 @@ module Component
 
 		text align: :center
 		font size: 23.px
+		padding 0
+		border :none
+		background :none
 	}
 
-	Warning = Lissio::Component::Alert::Warning.customize(colors, &css)
-	Error   = Lissio::Component::Alert::Danger.customize(colors, &css)
+	Warning = Lissio::Component::Alert::Warning.customize(&css)
+	Error   = Lissio::Component::Alert::Danger.customize(&css)
 end
